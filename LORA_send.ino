@@ -30,7 +30,7 @@ void setup() {
 
 void loop() {
   if (millis() - lastSendTime > interval) {
-    String message = "HeLLo World! kadal malam";   // send a message
+    String message = "HeLLo World Moh.Azis";   // send a message
     message += msgCount;
     sendMessage(message);
     Serial.println("Sending " + message);
