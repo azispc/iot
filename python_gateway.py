@@ -21,9 +21,10 @@ def service_connection(key, mask):
         recv_data=sock.recv(1024)
         if recv_data:
             data.outb+=recv_data
+            #Panggil fungsi masukkan data temperatur kedalam .txt
             append_data_to_file(recv_data.decode("utf-8"));
         else:
-            print("putus tersambung dari:", data.addr)
+            print("Dissconnect from to address:", data.addr)
             sel.unregister(sock)
             sock.close()
         if mask & selectors.EVENT_WRITE:
@@ -32,6 +33,7 @@ def service_connection(key, mask):
                 sent= sock.send(data.out)
                 data.outb=data.outb[sent:]
 
+#fungsi_buat read data string untuk dimasukkan kedalam file .txt
 def append_data_to_file(data):
     f=open(filename, "a+")
     f.write(data)
