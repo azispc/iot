@@ -4,12 +4,13 @@ import selectors
 import types
 
 sel = selectors.DefaultSelector()
+filename = "sensordata.txt"
 
 def accept_wrapper(sock):
     conn, addr=sock.accept()
     print("berhasil koneksi dari", addr)
     conn.setblocking(False)
-    data=types.SimpleNamespace(addr=addr, int=b"", outb=b"")
+    data=types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
     events=selectors.EVENT_READ| selectors.EVENT_WRITE
     sel.register(conn, events, data=data)
 
@@ -19,9 +20,10 @@ def service_connection(key, mask):
     if mask & selectors.EVENT_READ:
         recv_data=sock.recv(1024)
         if recv_data:
-            data.outb += recv_data
+            data.outb+=recv_data
+            append_data_to_file(recv_data.decode("utf-8"));
         else:
-            print("putus tersambung dari:",data.addr)
+            print("putus tersambung dari:", data.addr)
             sel.unregister(sock)
             sock.close()
         if mask & selectors.EVENT_WRITE:
@@ -30,13 +32,19 @@ def service_connection(key, mask):
                 sent= sock.send(data.out)
                 data.outb=data.outb[sent:]
 
+def append_data_to_file(data):
+    f=open(filename, "a+")
+    f.write(data)
+    f.write("\n:")
+    f.close()
+
 if len(sys.argv) !=3:
-    print("usage:", sys.argv[0], "<127.0.0.1> <8080>")
+    print("usage:", sys.argv[0], "<host> <port>")
     sys.exit(1)
 
 host,port=sys.argv[1], int(sys.argv[2])
 lsock=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-lsock.bind((host, port))
+lsock.bind((host,port))
 lsock.listen()
 print("listening on", (host, port))
 lsock.setblocking(False)
