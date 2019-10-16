@@ -37,7 +37,7 @@ def service_connection(key, mask):
 def append_data_to_file(data):
     f=open(filename, "a+")
     f.write(data)
-    f.write("\n:")
+    f.write("\n")
     f.close()
 
 if len(sys.argv) !=3:
