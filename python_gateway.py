@@ -30,7 +30,7 @@ def service_connection(key, mask):
         if mask & selectors.EVENT_WRITE:
             if data.outb:
                 print("echoing", repr(data.outb), "to", data.addr)
-                sent= sock.send(data.out)
+                sent= sock.send(data.outb)
                 data.outb=data.outb[sent:]
 
 #fungsi_buat read data string untuk dimasukkan kedalam file .txt
