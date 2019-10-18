@@ -1,7 +1,7 @@
 #include <WiFi.h>
 
-const char* ssid = "lowbatt";
-const char* password = "yesimpriti";
+const char* ssid = "ssid";
+const char* password = "***";
 
 const uint16_t port = 8080;
 const char * host = "192.168.43.201";
