@@ -24,12 +24,12 @@ try:
     led = str(input("Masukkan Status LED: "))
     print(led)
     if(led=="ON"):
-        #client.loop_start()
+        client.loop_start()
         print("Publishing message to topic", "ON")
         client.publish("hello","1")
         time.sleep(4)
     else:
-        #client.loop_start()
+        client.loop_start()
         print("Publishing message to topic", "OFF")
         client.publish("hello","0")
         time.sleep(4)
